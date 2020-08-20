@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+#chat_container {
+    background-color: cyan;
+    max-width: 800px;
+    height: 600px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin: 30px auto;
+    overflow: hidden;
+    border: 2px solid black;
+}
+
+#chat_container .chat-header {
+    width: 100%;
+    padding: 15px;
+    background-color: #99CCCC;
+    color: white;
+    border-bottom: 2px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#chat_container .chat-header h1 {
+    font-size: 2em;
+    display: block;
+    font-weight: bold;
+}
+
+#chat_container .chat-main {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+#chat_container .chat-sidebar {
+    background-color: #ccffcc;
+    color: white;
+    padding: 20px 20px 60px;
+    overflow-y: scroll;
+    max-height: 450px;
+}
+
+#chat_container .chat-sidebar h3 {
+    color: black;
+    margin-bottom: 15px;
+}
+
+#chat_container .chat-sidebar h2 {
+    color: black;
+    margin-bottom: 20px;
+}
+
+#chat_container .chat-sidebar li {
+    color: black;
+    padding: 5px 0;
+    list-style-type: none;
+}
+
+#chat_container .chat-messages {
+    padding: 30px;
+    background-color: #ffffcc;
+    overflow-y: scroll;
+    height: 450px;
+}
+
+#chat_container .chat-messages .message{
+    background-color: wheat;
+    border-radius: 5px;
+    overflow-wrap: break-word;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.message .meta {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 7px;
+    color: #777;
+}
+
+.message .meta span {
+    color: #777;
+    font-weight: lighter;
+}
+
+#chat_container .chat-form-container {
+    background-color: #99CCCC;
+    padding: 20px 30px;
+}
+
+#chat_container .chat-form-container #chat-form {
+    display: flex;
+}
+
+#chat_container .chat-form-container input[type='text'] {
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 5px;
+    height: 40px;
+    flex: 1;
+}
+
+#chat_container .btn {
+    padding: 5px 15px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline;
+}

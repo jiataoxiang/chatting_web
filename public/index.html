@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./css/joinRoom.css">
+    <title>Join Chat</title>
+</head>
+<body>
+    <div id="join_container">
+        <header class="join_header">
+            <h1 class="header"><i class="fas fa-comment-dots"></i> Happy Chat</h1>
+        </header>
+        <main class="join_main">
+            <form action="chat.html">
+                <div class="box_control">
+                    <label for="username">Username</label>
+                    <input 
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Enter username"
+                        required    
+                    />
+                </div>
+                <div class="box_control">
+                    <label for="room">Room</label>
+                    <select name="room" id="room">
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Join Chat</button>       
+            </form>
+        </main>
+    </div>
+</body>
+</html>
