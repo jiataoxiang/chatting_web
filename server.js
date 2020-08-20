@@ -2,51 +2,75 @@ const express = require("express");
 const http = require("http");
 const path = require("path");
 const socketio = require("socket.io");
-const moment = require('moment');
-
+const formatMessages = require('./utils/message');
+const {
+    findUserById,
+    userLeave,
+    getRoomUsers,
+    userJoin
+} = require("./utils/users");
+const db = require("./db");
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 const chatbot = 'HappyChat Bot';
 
-const users = [];
-
-function formatMessages(username, message) {
-    return {
-        username,
-        message,
-        time: moment().format('h:mm a')
+// data base connection
+db.connect(function (err) {
+    if (err) {
+        console.log('Error');
+    } else {
+        console.log("connected to database!");
     }
-};
+});
 
-function findUserById(id) {
-    return users.find(user => user.id === id);
-}
+app.get('/createdb', (req, res) => {
+    let sql = "create database chatroom";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send("Database created!");
+    });
+});
 
-function userJoin(id, username, room) {
-    const user = {
-        id, 
-        username,
-        room
-    }
-    users.push(user);
-    return user;
-}
+app.get('/createuserstable', (req, res) => {
+    let sql = "create table users (id int auto_increment primary key, \
+        socket_id int, name varchar(255), room varchar(255))";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send("table created!");
+    });
+});
 
-function userLeave(id) {
-    const index = users.findIndex(user => user.id === id);
-    if (index !== -1) {
-        return users.splice(index, 1)[0];
-    }
-}
+app.get('/adddefaultuser', (req, res) => {
+    let sql = "insert into users set ?"
+    let defaultuser = { socket_id: 1, name: "Jiatao", room: "Monday" };
+    db.query(sql, defaultuser, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send("user added!");
+    })
+});
 
-function getRoomUsers(room) {
-    return users.filter(user => user.room === room);
-}
+app.get('/getallusers', (req, res) => {
+    let sql = "select name from users";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    })
+});
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
+
 
 // Run when client connects
 io.on('connection', socket => {
@@ -77,7 +101,7 @@ io.on('connection', socket => {
         }
     });
 
-    
+
     // Run when client disconnect
     socket.on('disconnect', () => {
         const user = userLeave(socket.id);
@@ -85,19 +109,17 @@ io.on('connection', socket => {
         // to all the client in general
         if (user) {
             io.to(user.room).emit('message', formatMessages(chatbot, `${user.username} has left the room, say goodbye to him...`));
-            
+
             io.to(user.room).emit('roomUsers', {
                 room: user.room,
                 users: getRoomUsers(user.room)
             });
         }
-    }); 
-
-
+    });
 });
 
 
 
 const PORT = 3000 || process.env.PORT;
 
-server.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
+server.listen(PORT, () => { console.log(`Server is running on port ${PORT}`) });

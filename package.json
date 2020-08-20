@@ -10,8 +10,10 @@
   "author": "Jiatao Xiang",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "express": "^4.17.1",
     "moment": "^2.27.0",
+    "mysql": "^2.18.1",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
